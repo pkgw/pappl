@@ -724,10 +724,11 @@ papplSystemRun(pappl_system_t *system)	// I - System
     {
       system->save_changes = system->config_changes;
 
-      papplLog(system, PAPPL_LOGLEVEL_DEBUG, "Saving state/config changes.");
+      papplLog(system, PAPPL_LOGLEVEL_DEBUG, "PKGW Saving state/config changes 1? %p", system->save_cb);
 
       if (system->save_cb)
       {
+        papplLog(system, PAPPL_LOGLEVEL_DEBUG, "PKGW yes 1 %s", system->save_cbdata);
         // Save the configuration...
 	(system->save_cb)(system, system->save_cbdata);
       }
@@ -830,11 +831,12 @@ papplSystemRun(pappl_system_t *system)	// I - System
   {
     system->save_changes = system->config_changes;
 
-    papplLog(system, PAPPL_LOGLEVEL_DEBUG, "Saving state/config changes.");
+    papplLog(system, PAPPL_LOGLEVEL_DEBUG, "PKGW Saving state/config changes 2? %p", system->save_cb);
 
     if (system->save_cb)
     {
       // Save the configuration...
+      papplLog(system, PAPPL_LOGLEVEL_DEBUG, "PKGW yes 2 %s", system->save_cbdata);
       (system->save_cb)(system, system->save_cbdata);
     }
   }
