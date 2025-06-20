@@ -690,6 +690,9 @@ _papplMainloopRunServer(
   papplSystemAddListeners(system, _papplMainloopGetServerPath(base_name, getuid(), sockname, sizeof(sockname)));
 #endif // _WIN32
 
+  //papplLog(system, PAPPL_LOGLEVEL_INFO, "Loading system state from '%s'.", filename);
+  printf("PKGW save_cb? %p\n", system->save_cb);
+
   // Finish initialization...
   if (!system->save_cb)
   {
@@ -744,6 +747,8 @@ _papplMainloopRunServer(
 #endif // __APPL__
     }
 
+    printf("PKGW statename 1: %s\n", statename);
+
     if (!statename[0])
     {
       // As a last resort, put the state in the temporary directory (where it
@@ -755,10 +760,12 @@ _papplMainloopRunServer(
 #endif // _WIN32
     }
 
+    printf("PKGW statename 2: %s\n", statename);
     papplSystemSetSaveCallback(system, (pappl_save_cb_t)papplSystemSaveState, (void *)statename);
 
     if (!papplSystemLoadState(system, statename) && autoadd_cb)
     {
+      printf("PKGW got false\n");
       // If there is no state file, auto-add locally-connected printers...
       papplSystemCreatePrinters(system, PAPPL_DEVTYPE_LOCAL, /*cb*/NULL, /*cb_data*/NULL);
     }
