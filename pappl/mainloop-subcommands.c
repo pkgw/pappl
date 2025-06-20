@@ -690,7 +690,7 @@ _papplMainloopRunServer(
   papplSystemAddListeners(system, _papplMainloopGetServerPath(base_name, getuid(), sockname, sizeof(sockname)));
 #endif // _WIN32
 
-  //papplLog(system, PAPPL_LOGLEVEL_INFO, "Loading system state from '%s'.", filename);
+  papplLog(system, PAPPL_LOGLEVEL_INFO, "PKGW save_cb? %p", system->save_cb);
   printf("PKGW save_cb? %p\n", system->save_cb);
 
   // Finish initialization...
@@ -760,11 +760,13 @@ _papplMainloopRunServer(
 #endif // _WIN32
     }
 
+    papplLog(system, PAPPL_LOGLEVEL_INFO, "PKGW statename 2: %s", statename);
     printf("PKGW statename 2: %s\n", statename);
     papplSystemSetSaveCallback(system, (pappl_save_cb_t)papplSystemSaveState, (void *)statename);
 
     if (!papplSystemLoadState(system, statename) && autoadd_cb)
     {
+      papplLog(system, PAPPL_LOGLEVEL_INFO, "PKGW got false");
       printf("PKGW got false\n");
       // If there is no state file, auto-add locally-connected printers...
       papplSystemCreatePrinters(system, PAPPL_DEVTYPE_LOCAL, /*cb*/NULL, /*cb_data*/NULL);
